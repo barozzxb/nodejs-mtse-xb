@@ -1,0 +1,24 @@
+{
+    "development": {
+        "username": "root",
+        "password": "xuanbao",
+        "database": "xb_crud",
+        "host": "localhost",
+        "dialect": "mysql",
+        "logging": false
+    },
+    "test": {
+        "username": "root",
+        "password": null,
+        "database": "xb_crud_test",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "root",
+        "password": null,
+        "database": "xb_crud_prod",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}
