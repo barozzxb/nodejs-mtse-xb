@@ -1,6 +1,7 @@
 'use strict';
 
 import { Sequelize, DataTypes } from "sequelize";
+import UserModel from "./user";
 
 const fs = require('fs');
 const path = require('path');
@@ -16,6 +17,10 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+const User = UserModel(sequelize);
+db['User'] = User;
+
 
 fs
   .readdirSync(__dirname)

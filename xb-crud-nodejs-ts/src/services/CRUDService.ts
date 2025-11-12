@@ -38,18 +38,27 @@ const createNewUser = async (data: IUserInput): Promise<string> => {
     }
 };
 
-let getAllUser = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let users = db.User.findAll({
-                raw: true,
-            });
-            resolve(users);
-        } catch (e) {
-            reject(e);
-        }
-    })
-}
+// let getAllUser = () => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             let users = db.User.findAll({
+//                 raw: true,
+//             });
+//             resolve(users);
+//         } catch (e) {
+//             reject(e);
+//         }
+//     })
+// }
+
+const getAllUser = async () => {
+  try {
+    const users = await db.User.findAll({ raw: true });
+    return users;
+  } catch (error) {
+    throw error;
+  }
+};
 
 let getUserInfoById = (userId: number) => {
     return new Promise(async (resolve, reject) => {
