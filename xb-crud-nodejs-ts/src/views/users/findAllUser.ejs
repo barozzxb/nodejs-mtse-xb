@@ -1,0 +1,24 @@
+<body>
+    <table style="width: 100%;">
+        <tr>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Action</th>
+        </tr>
+        <% datalist.forEach(function(user) { %>
+            <tr>
+                <td><%= user.email %></td>
+                <td><%= user.firstName %></td>
+                <td><%= user.lastName %></td>
+                <td><%= user.address %></td>
+                <td>
+                    <a href="/edit-crud/<%= user.id %>">Edit</a>
+                    |
+                    <a href="/delete-crud/<%= user.id %>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+</body>
