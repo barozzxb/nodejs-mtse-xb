@@ -7,12 +7,16 @@ import { getHomePage } from "./controllers/HomeController.js";
 
 import connection from './configs/database.js';
 
+import { apiLimit } from './middlewares/rateLimit.js';
+
 const port = process.env.PORT || 8900;
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use('/api/v1', apiLimit)
 
 configViewEngine(app);
 

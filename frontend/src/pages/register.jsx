@@ -40,7 +40,6 @@ const RegisterPage = () => {
                             required: true,
                             message: 'Vui lòng nhập email',
                         },
-                        { type: 'email', message: 'Email không hợp lệ' }
                         ]}>
                             <Input />
                         </Form.Item>
@@ -49,10 +48,6 @@ const RegisterPage = () => {
                             required: true,
                             message: 'Vui lòng nhập mật khẩu',
                         },
-                        {
-                            min: 8,
-                            message: 'Mật khẩu phải có ít nhất 8 ký tự'
-                        }
                         ]}>
                             <Input.Password />
                         </Form.Item>
