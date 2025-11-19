@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const auth = (req, res, next) => {
     const white_lists = ['/', '/register', '/login'];
-    if (white_lists.find(item => '/v1/api' + item === req.orifinalUrl)) {
+    if (white_lists.find(item => '/api/v1' + item === req.originalUrl)) {
         next();
     } else {
         if (req?.headers?.authorization?.split(' ')?.[1]){

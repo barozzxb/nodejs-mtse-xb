@@ -3,21 +3,21 @@ import express from 'express';
 import delay from '../middlewares/delay.js';
 import auth from '../middlewares/auth.js';
 
-import UserController from '../controllers/UserController.js';
+import {createUser, handleLogin, getUser, getAccount} from '../controllers/UserController.js';
 
-const routes = express.Router();
+const routerAPI = express.Router();
 
-routes.use(auth);
+routerAPI.use(auth);
 
 
-routes.get('/', (req, res) => {
+routerAPI.get('/', (req, res) => {
     return res.status(200).json("Status: ok");
 })
 
-routes.post('/register', UserController.createUser);
-routes.post('/login', UserController.handleLogin);
+routerAPI.post('/register', createUser);
+routerAPI.post('/login', handleLogin);
 
-routes.get('/user', UserController.getUser);
-routes.get('/account', delay, UserController.getAccount);
+routerAPI.get('/user', getUser);
+routerAPI.get('/account', delay, getAccount);
 
-export default routes;
+export default routerAPI;
