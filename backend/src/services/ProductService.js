@@ -35,6 +35,43 @@ export const getAllProductsPageServ = async (genre, limit = 10, page, sort = "-c
     }
 };
 
+export const searchProductsServ = async ({ keyword = '', genre, minPrice, maxPrice, limit = 10, page = 1, sort = '-createdAt' }) => {
+  try {
+    const parsedLimit = Math.min(parseInt(limit, 10) || 10, 50);
+    const p = Math.max(parseInt(page, 10), 1);
+    const skip = (p - 1) * parsedLimit;
+
+    const filters = {};
+    if (genre && genre.trim() !== '') filters.genre = genre;
+    if (minPrice) filters.price = { ...filters.price, $gte: minPrice };
+    if (maxPrice) filters.price = { ...filters.price, $lte: maxPrice };
+
+    const searchRegex = keyword ? { $regex: keyword, $options: 'i' } : null;
+    if (searchRegex) {
+      filters.$or = [
+        { name: searchRegex },
+        { description: searchRegex }
+      ];
+    }
+
+    const [items, total] = await Promise.all([
+      Product.find(filters)
+        .sort(sort)
+        .skip(skip)
+        .limit(parsedLimit)
+        .lean(),
+      Product.countDocuments(filters)
+    ]);
+
+    const totalPages = Math.ceil(total / parsedLimit);
+    return { success: true, message: 'Search products successfully', data: { page: p, totalPages, limit: parsedLimit, total, items } };
+  } catch (err) {
+    console.error(err);
+    return { success: false, message: 'Unexpected error', data: null };
+  }
+};
+
+
 
 
 export const addProductServ = async (dto) => {

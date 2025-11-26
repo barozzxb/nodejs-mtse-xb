@@ -6,7 +6,7 @@ import {validateLogin, validateRegister} from '../middlewares/validation.js';
 
 import {createUser, handleLogin, getUser, getAccount} from '../controllers/UserController.js';
 import {authorizeRole} from '../middlewares/role.js';
-import { addProduct, getAllProductsPage} from '../controllers/ProductController.js';
+import { addProduct, getAllProductsPage, searchProducts} from '../controllers/ProductController.js';
 
 const routerAPI = express.Router();
 
@@ -25,5 +25,6 @@ routerAPI.get('/account',  authorizeRole("Admin"), delay, getAccount);
 
 routerAPI.post('/products/add', addProduct);
 routerAPI.get('/products', getAllProductsPage);
+routerAPI.get('/products/find', searchProducts);
 
 export default routerAPI;

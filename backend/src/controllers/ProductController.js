@@ -1,4 +1,4 @@
-import {addProductServ, getAllProductsPageServ} from '../services/ProductService.js';
+import { addProductServ, getAllProductsPageServ, searchProductsServ } from '../services/ProductService.js';
 
 
 export const getAllProductsPage = async (req, res) => {
@@ -40,3 +40,14 @@ export const addProduct = async (req, res) => {
     };
 };
 
+export const searchProducts = async (req, res) => {
+    try {
+        const { keyword, genre, minPrice, maxPrice, limit, page, sort } = req.query;
+        const result = await searchProductsServ({ keyword, genre, minPrice, maxPrice, limit, page, sort });
+        if (!result.success) return res.status(400).json(result.message);
+        return res.status(200).json(result.data);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: 'Server error', data: null });
+    }
+};
