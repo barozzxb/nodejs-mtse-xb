@@ -1,28 +1,32 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:8900"
+  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:8900",
 });
 
-instance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem("access_token");
-    console.log(token);
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-        console.log(config.headers.Authorization);
-    }
+
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('access_token');
+
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
 
     return config;
-}, function (error) {
-    return Promise.reject(error);
-});
+  },
+  (error) => Promise.reject(error)
+);
 
-instance.interceptors.response.use(function (response) {
-    if (response && response.data) return response.data;
-    return response;
-}, function (error) {
-    if (error?.response?.data) return error?.response?.data;
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      localStorage.removeItem('access_token');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
-});
+  }
+);
 
 export default instance;

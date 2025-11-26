@@ -14,8 +14,8 @@ const LoginPage = () => {
     const onFinish = async (values) => {
         const { email, password } = values;
         const res = await loginAPI(email, password);
-        if (res && res.EC === 0) {
-            localStorage.setItem("access_token", res.access_token);
+        if (res && res.data.EC === 0) {
+            localStorage.setItem("access_token", res.data.access_token);
             console.log("Success calling...")
             notification.success({
                 message: "LOGIN USER",
