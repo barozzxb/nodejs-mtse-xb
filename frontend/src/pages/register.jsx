@@ -23,7 +23,7 @@ const RegisterPage = () => {
         }
     };
     return (
-        <Row justify={"center"} style={{marginTop: "30px"}}>
+        <Row justify={"center"} style={{ marginTop: "30px" }}>
             <Col xs={24} md={16} lg={8}>
                 <fieldset style={{
                     padding: "15px",
@@ -38,26 +38,26 @@ const RegisterPage = () => {
 
                         <Form.Item label='Email' name="email" rules={[{
                             required: true,
-                            message: 'Please input your email',
+                            message: 'Vui lòng nhập email',
                         },
                         ]}>
-                            <Input/>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item label='Password' name="password" rules={[{
                             required: true,
-                            message: 'Please input your password',
+                            message: 'Vui lòng nhập mật khẩu',
                         },
                         ]}>
-                            <Input.Password/>
+                            <Input.Password />
                         </Form.Item>
 
                         <Form.Item label='Name' name="name" rules={[{
                             required: true,
-                            message: 'Please input your name',
+                            message: 'Vui lòng nhập tên',
                         },
                         ]}>
-                            <Input/>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item >
@@ -70,9 +70,9 @@ const RegisterPage = () => {
 
                     <Link to={"/"}> Quay lai trang chu</Link>
 
-                    <Divider/>
+                    <Divider />
 
-                    <div style={{textAlign: "center"}}>
+                    <div style={{ textAlign: "center" }}>
                         Đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link>
                     </div>
 

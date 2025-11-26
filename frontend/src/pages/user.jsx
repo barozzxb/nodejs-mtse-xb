@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import {getUserAPI} from "../utils/api";
 
 const UserPage = () => {
-    const [dataSouce, setDataSource] = useState([]);
+    const [dataSource, setDataSource] = useState([]);
     useEffect(()=>{
         const fetchUser = async () => {
-            const res = await getUserApi();
+            const res = await getUserAPI();
             if (!res.message){
-                setDataSource(res)
+                setDataSource(res.data ?? res);
             } else {
                 notification.error({
                     message: "Unauthorized",
@@ -40,7 +40,7 @@ const UserPage = () => {
 
     return (
         <div style={{padding: 30}}>
-             <Table bordered dataSource={dataSouce} columns={columns} rowKey={"_id"} />
+             <Table bordered dataSource={Array.isArray(dataSource) ? dataSource : []} columns={columns} rowKey={"_id"} />
         </div>
     )
 }

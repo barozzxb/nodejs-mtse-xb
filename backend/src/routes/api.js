@@ -2,22 +2,29 @@ import express from 'express';
 
 import delay from '../middlewares/delay.js';
 import auth from '../middlewares/auth.js';
+import {validateLogin, validateRegister} from '../middlewares/validation.js';
 
-import UserController from '../controllers/UserController.js';
+import {createUser, handleLogin, getUser, getAccount} from '../controllers/UserController.js';
+import {authorizeRole} from '../middlewares/role.js';
+import { addProduct, getAllProductsPage, searchProducts} from '../controllers/ProductController.js';
 
-const routes = express.Router();
+const routerAPI = express.Router();
 
-routes.use(auth);
+routerAPI.use(auth);
 
 
-routes.get('/', (req, res) => {
+routerAPI.get('/', (req, res) => {
     return res.status(200).json("Status: ok");
 })
 
-routes.post('/register', UserController.createUser);
-routes.post('/login', UserController.handleLogin);
+routerAPI.post('/register',validateRegister, createUser);
+routerAPI.post('/login', validateLogin, handleLogin);
 
-routes.get('/user', UserController.getUser);
-routes.get('/account', delay, UserController.getAccount);
+routerAPI.get('/user',getUser);
+routerAPI.get('/account',  authorizeRole("Admin"), delay, getAccount);
 
-export default routes;
+routerAPI.post('/products/add', addProduct);
+routerAPI.get('/products', getAllProductsPage);
+routerAPI.get('/products/find', searchProducts);
+
+export default routerAPI;

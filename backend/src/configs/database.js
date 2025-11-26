@@ -22,6 +22,7 @@ const dbState = [
 
 const connection = async () =>{
     await mongoose.connect(process.env.MONGO_DB);
+    console.log(process.env.JWT_EXPIRE);
     const state = mongoose.connection.readyState;
     console.log(dbState.find(f => f.value === Number(state)).label + " to database");
 }

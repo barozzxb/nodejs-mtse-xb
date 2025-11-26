@@ -4,18 +4,19 @@ import { loginAPI } from '../utils/api.js';
 import { Link, useNavigate } from 'react-router-dom';
 
 
-import {AuthContext} from '../components/context/auth.context'
+import { AuthContext } from '../components/context/auth.context'
 
 const LoginPage = () => {
     const navigate = useNavigate();
 
-    const {setAuth} = useContext(AuthContext);
+    const { setAuth } = useContext(AuthContext);
 
     const onFinish = async (values) => {
         const { email, password } = values;
         const res = await loginAPI(email, password);
-        if (res && res.EC === 0) {
-            localStorage.setItem("access_token", res.access_token)
+        if (res && res.data.EC === 0) {
+            localStorage.setItem("access_token", res.data.access_token);
+            console.log("Success calling...")
             notification.success({
                 message: "LOGIN USER",
                 description: "Success"
@@ -30,6 +31,7 @@ const LoginPage = () => {
             })
             navigate("/");
         } else {
+            console.log("Error calling...")
             notification.error({
                 message: "LOGIN USER",
                 description: res?.EM ?? "error"
@@ -37,7 +39,7 @@ const LoginPage = () => {
         }
     };
     return (
-        <Row justify={"center"} style={{marginTop: "30px"}}>
+        <Row justify={"center"} style={{ marginTop: "30px" }}>
             <Col xs={24} md={16} lg={8}>
                 <fieldset style={{
                     padding: "15px",
@@ -52,18 +54,19 @@ const LoginPage = () => {
 
                         <Form.Item label='Email' name="email" rules={[{
                             required: true,
-                            message: 'Please input your email',
+                            message: 'Vui lòng nhập email',
                         },
                         ]}>
-                            <Input/>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item label='Password' name="password" rules={[{
                             required: true,
-                            message: 'Please input your password',
+                            message: 'Vui lòng nhập mật khẩu',
+
                         },
                         ]}>
-                            <Input.Password/>
+                            <Input.Password />
                         </Form.Item>
 
                         <Form.Item >
@@ -76,9 +79,9 @@ const LoginPage = () => {
 
                     <Link to={"/"}> Quay lại trang chủ</Link>
 
-                    <Divider/>
+                    <Divider />
 
-                    <div style={{textAlign: "center"}}>
+                    <div style={{ textAlign: "center" }}>
                         Chưa có tài khoản? <Link to={"/register"}>Đăng ký</Link>
                     </div>
 
