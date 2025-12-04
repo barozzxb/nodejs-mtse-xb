@@ -1,32 +1,32 @@
-import React, {useState, useContext, Children} from 'react';
-import {UsergroupAddOutlined, HomeOutlined, SettingOutlined} from '@ant-design/icons';
-import {Menu} from 'antd';
-import {Link, useNavigate} from 'react-router-dom'
-import {AuthContext} from '../context/auth.context';
+import React, { useState, useContext, Children } from 'react';
+import { UsergroupAddOutlined, HomeOutlined, SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/auth.context';
 
 const Header = () => {
     const navigate = useNavigate();
-    const {auth, setAuth} = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     console.log('>>> check auth: ', auth);
     const items = [
         {
             label: <Link to={"/"}>Homepage</Link>,
             key: 'home',
-            icon: <HomeOutlined/>
+            icon: <HomeOutlined />
         },
-        ...(auth.isAuthenticated? [{
+        ...(auth.isAuthenticated ? [{
             label: <Link to={"/user"}>User</Link>,
             key: 'user',
-            icon: <UsergroupAddOutlined/>
-        }]: []),
+            icon: <UsergroupAddOutlined />
+        }] : []),
 
         {
-            label: `Welcome ${auth?.user?.email?? ""}`,
+            label: `Welcome ${auth?.user?.email ?? ""}`,
             key: 'subMenu',
-            icon: <SettingOutlined/>,
+            icon: <SettingOutlined />,
             children: [
-                ...(auth.isAuthenticated? [{
-                    label: <span onClick={()=>{
+                ...(auth.isAuthenticated ? [{
+                    label: <span onClick={() => {
                         localStorage.clear("access_token");
                         setCurrent("home");
                         setAuth({
@@ -39,7 +39,7 @@ const Header = () => {
                         navigate("/");
                     }}> Log out </span>,
                     key: "logout",
-                }]: [
+                }] : [
                     {
                         label: <Link to={"/login"}>Login</Link>,
                         key: "login",
@@ -47,6 +47,11 @@ const Header = () => {
                 ]),
             ],
         },
+        ...(auth?.isAuthenticated ? [{
+            label: <Link to="/cart">Cart</Link>,
+            icon: <ShoppingCartOutlined />,
+            key: 'cart'
+        }] : [])
     ];
 
     const [current, setCurrent] = useState('mail');
@@ -55,7 +60,7 @@ const Header = () => {
         setCurrent(e.key)
     };
 
-    return <Menu onClick={onClick} selectedKeys={[current]} mode='horizontal' items={items}/>
+    return <Menu onClick={onClick} selectedKeys={[current]} mode='horizontal' items={items} />
 }
 
 export default Header;

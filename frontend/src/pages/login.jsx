@@ -31,7 +31,7 @@ const LoginPage = () => {
             })
             navigate("/");
         } else {
-            console.log("Error calling...")
+            console.log("Error calling...", res.data.EM);
             notification.error({
                 message: "LOGIN USER",
                 description: res?.EM ?? "error"

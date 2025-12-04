@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { Input, Card, Col, Row, Pagination, Spin } from 'antd';
 import axios from '../utils/axios.customize';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
+
+import CartDrawer, {useCart} from 'cart-lib-xb';
+import ProductCard from '../components/productCard';
 
 const { Search } = Input;
 
@@ -16,8 +20,11 @@ const HomePage = () => {
     const [loading, setLoading] = useState(false);
 
     const [keyword, setKeyword] = useState('');
-    const [value, setValue] = useState(''); // <-- ensure value defined
+    const [value, setValue] = useState(''); 
     const navigate = useNavigate();
+
+    const cart = useCart([]);
+    const [open, setOpen] = useState(false);
 
     const buildSearchParams = (raw) => {
         const s = (raw || '').trim().replace(/\s+/g, ' ');
@@ -75,6 +82,20 @@ const HomePage = () => {
     return (
         <div style={{ padding: '20px' }}>
 
+            <Button onClick={() => setOpen(true)}>Open Cart ({cart.items.length})</Button>
+
+            <CartDrawer
+                open={open}
+                onClose={() => setOpen(false)}
+                items={cart.items}
+                onUpdateQuantity={(id, qty) => cart.update(id, { quantity: qty })}
+                onRemove={(id) => cart.remove(id)}
+                onToggleSelect={(id) => cart.toggleSelect(id)}
+                onSelectAll={(checked) => {
+                    cart.items.forEach(i => cart.update(i.id, { selected: checked }));
+                }}
+            />
+
             <Row justify="center" style={{ marginTop: 24 }}>
                 <Col xs={20} sm={16} md={12} lg={10}>
                     <Search
@@ -96,14 +117,7 @@ const HomePage = () => {
             </div>
             <Row gutter={[16, 16]}>
                 {products.map((product) => (
-                    <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
-                        <Card title={product.name} bordered hoverable>
-                            <p><strong>Genre:</strong> {product.genre}</p>
-                            <p><strong>Price:</strong> {product.price.toLocaleString()} VND</p>
-                            <p><strong>Brand:</strong> {product.brand}</p>
-                            <p>{product.description}</p>
-                        </Card>
-                    </Col>
+                        <ProductCard product={product} key={product._id}/>
                 ))}
             </Row>
 

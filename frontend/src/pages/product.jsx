@@ -16,6 +16,7 @@ const ProductCard = ({ p }) => (
     <p><strong>Price:</strong> {Number(p.price).toLocaleString?.() ?? p.price} VND</p>
     <p><strong>Brand:</strong> {p.brand}</p>
     <p style={{ color: '#555' }}>{p.description}</p>
+    <button type="primary">Add to cart</button>
   </Card>
 );
 
@@ -152,9 +153,7 @@ export default function ProductSearchPage() {
         <>
           <Row gutter={[16, 16]}>
             {items.map(p => (
-              <Col key={p._id} xs={24} sm={12} md={8} lg={6}>
-                <ProductCard p={p} />
-              </Col>
+                <ProductCard product={p} />
             ))}
           </Row>
 
