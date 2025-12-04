@@ -1,0 +1,7 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
