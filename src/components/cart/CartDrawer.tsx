@@ -1,4 +1,3 @@
-// src/components/cart/CartDrawer.tsx
 import React, { useMemo } from "react";
 import { Drawer, Row, Col, Typography } from "antd";
 import type { DrawerProps } from "antd/es/drawer";
@@ -83,7 +82,6 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
           onSelectAll={onSelectAll}
         />
 
-        {/* Footer inside the drawer/card */}
         <div style={{ marginTop: 12 }}>
           <Row
             justify="space-between"
