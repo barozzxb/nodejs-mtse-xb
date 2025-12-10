@@ -79,7 +79,6 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
           onUpdateQuantity={onUpdateQuantity}
           onRemove={onRemove}
           onToggleSelect={onToggleSelect}
-          onSelectAll={onSelectAll}
         />
 
         <div style={{ marginTop: 12 }}>
