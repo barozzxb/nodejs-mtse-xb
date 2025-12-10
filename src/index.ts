@@ -7,5 +7,8 @@ export { default as CartList } from './components/cart/CartList';
 export { default as CartItem } from './components/cart/CartItem';
 export { useCart } from './hooks/useCart';
 
-import CartDrawerDefault from './components/cart/CartDrawer';
-export default CartDrawerDefault;
+// import CartDrawerDefault from './components/cart/CartDrawer';
+// export default CartDrawerDefault;
+
+import CartPage from './components/cart/CartSection';
+export default CartPage;
