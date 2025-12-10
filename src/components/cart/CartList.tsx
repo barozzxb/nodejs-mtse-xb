@@ -127,74 +127,60 @@
 // export default CartList;
 
 import React from "react";
-import { Row, Col, Checkbox, Typography } from "antd";
-import type { CartItemType } from "../../hooks/useCart";
-import CartItem from "./CartItem"; 
-const { Text } = Typography;
+import CartItem, { CartItemType } from "./CartItem";
 
-type Props = {
+export type CartListProps = {
   items: CartItemType[];
   onUpdateQuantity?: (id: string | number, quantity: number) => void;
   onRemove?: (id: string | number) => void;
   onToggleSelect?: (id: string | number, selected: boolean) => void;
-  onSelectAll?: (checked: boolean) => void;
+  className?: string;
+  itemClassName?: string;
+  showDivider?: boolean;
 };
 
-const CartList: React.FC<Props> = ({
+const CartList: React.FC<CartListProps> = ({
   items = [],
   onUpdateQuantity,
   onRemove,
   onToggleSelect,
-  onSelectAll,
+  className = "",
+  itemClassName = "",
+  showDivider = true,
 }) => {
-  const totalItems = items.reduce((s, i) => s + i.quantity, 0);
-  const allSelected = items.length > 0 && items.every((i) => i.selected);
-
   if (!items || items.length === 0) {
     return (
-      <div style={{ padding: 12, textAlign: "center", color: "rgba(0,0,0,0.45)" }}>
+      <div
+        className={className}
+        style={{ padding: 12, textAlign: "center", opacity: 0.6 }}
+      >
         Giỏ hàng trống
       </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-      <div style={{ padding: "8px 0 12px", borderBottom: "1px solid #f0f0f0" }}>
-        <Row justify="space-between" align="middle">
-          <Col>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-              <input
-                type="checkbox"
-                checked={allSelected}
-                onChange={(e) => onSelectAll?.(e.target.checked)}
-              />
-              <span style={{ fontSize: 13, color: "rgba(0,0,0,0.65)" }}>
-                Chọn tất cả ({totalItems} sản phẩm)
-              </span>
-            </label>
-          </Col>
-        </Row>
-      </div>
-
-      <div>
-        {items.map((it, idx) => (
-          <div
-            key={it.id}
-            style={{
-              padding: "12px 0",
-              borderBottom: idx !== items.length - 1 ? "1px solid #f0f0f0" : "none",
-            }}
-          >
-            <CartItem
-              item={it}
-              onUpdateQuantity={onUpdateQuantity}
-              onRemove={onRemove}
-              onToggleSelect={onToggleSelect}
-            />
-          </div>
-        ))}
-      </div>
+    <div className={className}>
+      {items.map((item, index) => (
+        <div
+          key={item.id}
+          style={{
+            padding: "12px 0",
+            borderBottom:
+              showDivider && index !== items.length - 1
+                ? "1px solid #f0f0f0"
+                : "none",
+          }}
+          className={itemClassName}
+        >
+          <CartItem
+            item={item}
+            onUpdateQuantity={onUpdateQuantity}
+            onRemove={onRemove}
+            onToggleSelect={onToggleSelect}
+          />
+        </div>
+      ))}
     </div>
   );
 };
