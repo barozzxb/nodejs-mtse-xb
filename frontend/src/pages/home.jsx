@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { Input, Card, Col, Row, Pagination, Spin } from 'antd';
 import axios from '../utils/axios.customize';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
 
-import CartDrawer, {useCart} from 'cart-lib-xb';
+import {useCart as useCartHook} from '../hooks/useCartQuery';
 import ProductCard from '../components/productCard';
 
 const { Search } = Input;
@@ -17,13 +16,11 @@ const HomePage = () => {
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5);
-    const [loading, setLoading] = useState(false);
+    const [ploading, setpLoading] = useState(false);
 
-    const [keyword, setKeyword] = useState('');
     const [value, setValue] = useState(''); 
     const navigate = useNavigate();
 
-    const cart = useCart([]);
     const [open, setOpen] = useState(false);
 
     const buildSearchParams = (raw) => {
@@ -35,7 +32,7 @@ const HomePage = () => {
             return params.toString();
         }
         const parts = s.split(' ').map(p => p.trim()).filter(Boolean);
-        parts.forEach(k => params.append('keyword', k));
+        parts.forEach(k => params.append('q', k));
         params.set('page', '1');
         params.set('limit', '10');
         return params.toString();
@@ -43,7 +40,7 @@ const HomePage = () => {
 
     const fetchProducts = async (page = 1) => {
         try {
-            setLoading(true);
+            setpLoading(true);
             const res = await axios.get(`/api/v1/products?limit=${pageSize}&page=${page}`);
             if (res && res.data) {
                 setProducts(res.data.items);
@@ -54,7 +51,7 @@ const HomePage = () => {
         } catch (err) {
             console.error(err);
         } finally {
-            setLoading(false);
+            setpLoading(false);
         }
     };
 
@@ -63,15 +60,15 @@ const HomePage = () => {
     }, []);
 
     const onSearch = (v) => {
-        const qs = buildSearchParams(v);
-        navigate(`/products?${qs}`);
+        const q = buildSearchParams(v);
+        navigate(`/products?${q}`);
     };
 
     const handlePageChange = (page) => {
         fetchProducts(page);
     };
 
-    if (loading) {
+    if (ploading) {
         return (
             <div style={{ textAlign: 'center', padding: '50px' }}>
                 <Spin size="large" />
@@ -81,20 +78,6 @@ const HomePage = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-
-            <Button onClick={() => setOpen(true)}>Open Cart ({cart.items.length})</Button>
-
-            <CartDrawer
-                open={open}
-                onClose={() => setOpen(false)}
-                items={cart.items}
-                onUpdateQuantity={(id, qty) => cart.update(id, { quantity: qty })}
-                onRemove={(id) => cart.remove(id)}
-                onToggleSelect={(id) => cart.toggleSelect(id)}
-                onSelectAll={(checked) => {
-                    cart.items.forEach(i => cart.update(i.id, { selected: checked }));
-                }}
-            />
 
             <Row justify="center" style={{ marginTop: 24 }}>
                 <Col xs={20} sm={16} md={12} lg={10}>

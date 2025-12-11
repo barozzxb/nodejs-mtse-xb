@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import './styles/global.css'
+import { ToastContainer } from 'react-toastify';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ApolloProvider } from "@apollo/client/react";
@@ -53,6 +54,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthWrapper>
       <ApolloProvider client={client}>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
         <RouterProvider router={router} />
       </ApolloProvider>
     </AuthWrapper>

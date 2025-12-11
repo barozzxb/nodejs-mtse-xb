@@ -1,5 +1,5 @@
 import React, { useState, useContext, Children } from 'react';
-import { UsergroupAddOutlined, HomeOutlined, SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, HomeOutlined, SettingOutlined, ShoppingCartOutlined, ProductFilled } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context';
@@ -13,6 +13,11 @@ const Header = () => {
             label: <Link to={"/"}>Homepage</Link>,
             key: 'home',
             icon: <HomeOutlined />
+        },
+        {
+            label: <Link to={'/products'}>Products</Link>,
+            key: "products",
+            icon: <ProductFilled/>
         },
         ...(auth.isAuthenticated ? [{
             label: <Link to={"/user"}>User</Link>,

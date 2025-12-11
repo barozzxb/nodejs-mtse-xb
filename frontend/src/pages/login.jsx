@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Button, Col, Divider, Form, Input, notification, Row } from 'antd';
 import { loginAPI } from '../utils/api.js';
 import { Link, useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 
 import { AuthContext } from '../components/context/auth.context'
@@ -32,6 +33,7 @@ const LoginPage = () => {
             navigate("/");
         } else {
             console.log("Error calling...", res.data.EM);
+            toast.error(res.data.EM);
             notification.error({
                 message: "LOGIN USER",
                 description: res?.EM ?? "error"

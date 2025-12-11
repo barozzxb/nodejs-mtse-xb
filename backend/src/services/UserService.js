@@ -41,6 +41,7 @@ export const loginService = async (email, password) => {
                 }
             } else {
                 const payload = {
+                    userID: user._id,
                     email: user.email,
                     name: user.name
                 }

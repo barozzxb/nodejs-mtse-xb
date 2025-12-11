@@ -1,6 +1,8 @@
 import { useCart } from '../hooks/useCartQuery';
 import { Col } from 'antd';
 import { Card, Button } from 'antd';
+import FavoriteButton from "./FavoriteButton";
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {
     const { addItem, refetch } = useCart();
@@ -22,7 +24,10 @@ const ProductCard = ({ product }) => {
                             },
                         },
                     }).then(() => {refetch();});
+                    toast.success("Added to cart");
                 }} >Add to cart</Button>
+
+                <FavoriteButton productId={product._id} />
             </Card>
         </Col>
     );
